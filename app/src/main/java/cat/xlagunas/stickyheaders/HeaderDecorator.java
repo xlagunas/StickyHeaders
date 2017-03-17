@@ -38,6 +38,6 @@ public class HeaderDecorator<T> extends RecyclerView.ItemDecoration {
 
         int position = parent.getChildAdapterPosition(view);
 
-        return ((Groupable<T>) parent.getAdapter()).getGroupKey(position).equals(parent.getAdapter().get
+        return ((Groupable<T>) parent.getAdapter()).getGroupKey(position).equals(((Groupable) parent.getAdapter()).getGroupKey(position -1));
     }
 }
