@@ -1,43 +1,64 @@
 package cat.xlagunas.stickyheaders;
 
-import android.content.Context;
 import android.graphics.Canvas;
-import android.support.annotation.LayoutRes;
+import android.graphics.Rect;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
+
+import model.Task;
 
 public class HeaderDecorator<T> extends RecyclerView.ItemDecoration {
 
-    View header;
+    private final HeaderViewProvider headerViewProvider;
 
-    public HeaderDecorator(View header) {
-        this.header = header;
-    }
-
-    //TODO CHECK IF THAT NULL IS HARMFUL
-    public HeaderDecorator(Context context, @LayoutRes int headerLayout){
-        new HeaderDecorator(LayoutInflater.from(context).inflate(headerLayout, null));
+    public HeaderDecorator(HeaderViewProvider headerViewProvider) {
+        this.headerViewProvider = headerViewProvider;
     }
 
     @Override
-    public void onDraw(Canvas canvas, RecyclerView parent, RecyclerView.State state) {
+    public void onDrawOver(Canvas canvas, RecyclerView parent, RecyclerView.State state) {
 
-        for (int i=0; i < parent.getChildCount(); i++) {
+        for (int i = 0; i < parent.getChildCount(); i++) {
             View view = parent.getChildAt(i);
             if (shouldDecorateView(view, parent)) {
-
+                canvas.save();
+                View headerView = getHeaderForView(view, parent);
+                headerView.layout(parent.getLeft(), 0, parent.getRight(), headerView.getMeasuredHeight());
+                final int height = headerView.getMeasuredHeight();
+                final int top = view.getTop() - height;
+                canvas.translate(0, top);
+                headerView.draw(canvas);
+                canvas.restore();
             }
         }
     }
 
+    @Override
+    public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+        if (shouldDecorateView(view, parent)) {
+            View headerView = getHeaderForView(view, parent);
+            outRect.top = headerView.getMeasuredHeight();
+        }
+    }
+
     private boolean shouldDecorateView(View view, RecyclerView parent) {
-        if (!(parent.getAdapter() instanceof Groupable)) {
-            throw new RuntimeException("Adapter must implement Groupable interface");
+        int position = parent.getChildAdapterPosition(view);
+        TaskAdapter adapter = (TaskAdapter) parent.getAdapter();
+        if (adapter.getItemCount() > 1) {
+            if (position == 0
+                    || (position != adapter.getItemCount() - 1
+                    && !adapter.getItem(position).getGroupKey().equals(adapter.getItem(position - 1).getGroupKey()))) {
+                return true;
+            }
         }
 
-        int position = parent.getChildAdapterPosition(view);
-
-        return ((Groupable<T>) parent.getAdapter()).getGroupKey(position).equals(((Groupable) parent.getAdapter()).getGroupKey(position -1));
+        return false;
     }
+
+    private View getHeaderForView(View view, RecyclerView parent) {
+        int adapterPosition = parent.getChildAdapterPosition(view);
+        Task task = ((TaskAdapter) parent.getAdapter()).getItem(adapterPosition);
+        return headerViewProvider.getHeader(task.getGroupKey());
+    }
+
 }

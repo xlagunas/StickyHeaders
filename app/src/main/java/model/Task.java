@@ -6,12 +6,14 @@ import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.SerializedName;
 
+import cat.xlagunas.stickyheaders.Groupable;
+
 /**
  * Created by xlagunas on 17/03/17.
  */
 
 @AutoValue
-public abstract class Task {
+public abstract class Task implements Groupable<Integer> {
     @SerializedName("id")
     public abstract int id();
     @SerializedName("userId")
@@ -23,6 +25,15 @@ public abstract class Task {
 
     public static Builder builder() {
         return new AutoValue_Task.Builder();
+    }
+
+    public static TypeAdapter<Task> typeAdapter(Gson gson) {
+        return new AutoValue_Task.GsonTypeAdapter(gson);
+    }
+
+    @Override
+    public Integer getGroupKey() {
+        return userId();
     }
 
     @AutoValue.Builder
