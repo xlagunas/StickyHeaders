@@ -1,24 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
-    <!--xmlns:tools="http://schemas.android.com/tools"-->
-    <!--android:orientation="vertical"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:background="@color/colorHeader"-->
-    <!--android:paddingTop="8dp"-->
-    <!--android:paddingBottom="8dp">-->
 
 <TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/header_text"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:textAlignment="center"
     android:background="@color/colorHeader"
-    android:paddingTop="8dp"
-    android:paddingBottom="8dp"
     android:maxLines="1"
-    tools:text="This is a test"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"/>
-
-<!--</LinearLayout>-->
+    android:paddingBottom="8dp"
+    android:paddingTop="8dp"
+    android:textAlignment="center"
+    tools:text="This is a test"/>

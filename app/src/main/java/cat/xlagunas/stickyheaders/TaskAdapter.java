@@ -44,4 +44,11 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskViewHolder> {
     public Task getItem(int position) {
         return tasks.get(position);
     }
+
+    public List<Task> getTasksRange(int startPosition, int endPosition) {
+        if (startPosition < 0) {
+            return Collections.EMPTY_LIST;
+        }
+        return tasks.subList(startPosition, endPosition);
+    }
 }

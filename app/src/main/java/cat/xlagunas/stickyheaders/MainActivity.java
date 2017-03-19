@@ -45,10 +45,10 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }).build();
 
-        recyclerView.addItemDecoration(new HeaderDecorator<Task>(provider));
 
         recyclerView.setAdapter(taskAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.addItemDecoration(new HeaderDecorator<Task>(provider, new HeaderLocationProvider(recyclerView)));
         initRetrofit();
     }
 
