@@ -17,7 +17,7 @@ class HeaderViewProvider<T> {
     private final int headerResource;
     private final HeaderBinder headerBinder;
 
-    private Map<T, View> headersMap = new HashMap<>();
+    private final Map<T, View> headersMap = new HashMap<>();
 
     private HeaderViewProvider(RecyclerView recyclerView, int headerResource, HeaderBinder headerBinder) {
         this.recyclerView = recyclerView;

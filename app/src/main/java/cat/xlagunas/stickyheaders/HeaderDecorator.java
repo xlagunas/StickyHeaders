@@ -17,7 +17,7 @@ public class HeaderDecorator<T> extends RecyclerView.ItemDecoration {
     private final HeaderViewProvider headerViewProvider;
     private final HeaderLocationProvider headerLocationProvider;
 
-    private List<HeaderHelper> headerHelperList = Collections.EMPTY_LIST;
+    private List<HeaderHelper> headerHelperList = Collections.emptyList();
 
     public HeaderDecorator(HeaderViewProvider headerViewProvider, HeaderLocationProvider headerLocationProvider) {
         this.headerViewProvider = headerViewProvider;
